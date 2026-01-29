@@ -1,13 +1,15 @@
-import { Suspense } from "react";
-import SlowComponent from "./SlowComponent";
+async function getHeavyData() {
+  "use cache";
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  return "重いデータの取得完了";
+}
 
 export default async function Home() {
+  const data = await getHeavyData();
+
   return (
     <div>
-      <h1>メインコンテンツ(すぐに表示)</h1>
-      <Suspense fallback={<div>Loading...</div>}>
-        <SlowComponent />
-      </Suspense>
+      <h1>{data}</h1>
     </div>
   );
 }
